@@ -6,14 +6,14 @@ class Color : IEquatable<Color>
 {
     public int R
     {
-        get { return R; }
+        get => R;
         set
         {
-            if (value < 0)
+            if (value <= 0)
             {
-                R = value;
+                R = 0;
             }
-            else if (value > 255)
+            else if (value >= 255)
             {
                 R = 255;
             }
@@ -25,14 +25,14 @@ class Color : IEquatable<Color>
     }
     public int G
     {
-        get { return G; }
+        get => G;
         set
         {
-            if (value < 0)
+            if (value <= 0)
             {
-                G = value;
+                G = 0;
             }
-            else if (value > 255)
+            else if (value >= 255)
             {
                 G = 255;
             }
@@ -44,12 +44,12 @@ class Color : IEquatable<Color>
     }
     public int B
     {
-        get { return B; }
+        get => B;
         set
         {
             if (value < 0)
             {
-                B = value;
+                B = 0;
             }
             else if (value > 255)
             {
@@ -78,10 +78,18 @@ class Color : IEquatable<Color>
     }
     public bool IsSimilar(Color other,int threshold)
     {
-        Color obj = (other as Color);
+        int diffR = Math.Abs(R - other.R);
+        int diffG = Math.Abs(G - other.G);
+        int diffB = Math.Abs(B - other.B);
+
+        return diffR<=threshold&&diffG<=threshold&&diffB<=threshold;
     }
     public override string ToString()
     {
         return $"RGB({R}, {G}, {B})";
+    }
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(R, G, B);
     }
 }
